@@ -236,7 +236,7 @@ export default function BlankPage() {
             {Array.isArray(topic) &&
               topic.map((topic: topicInterface) => (
                 <tr className="hover:bg-base-200" key={topic.id}>
-                  <td>{String(topic.id).padStart(3, "0")}</td>
+                  <td>{String(topic.id).padStart(4, "0")}</td>
                   <td className="text-left truncate">{topic.name}</td>
                   <td>{topic.campaign.length}</td>
                   <td>
@@ -278,6 +278,69 @@ export default function BlankPage() {
               ))}
           </tbody>
         </table>
+      </div>
+      <div className="w-full flex flex-col xl:hidden my-4">
+        {Array.isArray(topic) &&
+          topic.map((topic: topicInterface) => (
+            <div
+              key={topic.id}
+              className="p-4 mt-2 flex flex-col items-center bg-white rounded-xl shadow border-1 border-gray-200"
+            >
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                รหัสงาน: <p>{String(topic.id).padStart(4, "0")}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ชื่องาน: <p>{topic.name}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                จำนวนกองบุญ: <p>{topic.campaign.length}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ยอดรวมรายได้:{" "}
+                <p>
+                  {(
+                    topic.campaign
+                      .flatMap((campaign) => campaign.campaign_transactions)
+                      .reduce(
+                        (sum: number, transaction: { value: number }) =>
+                          sum + transaction.value,
+                        0
+                      ) *
+                    (topic.campaign.length > 0 ? topic.campaign[0].price : 0)
+                  ).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                </p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                สถานะ: <p>{topic.status ? "อยู่ในช่วงงาน" : "จบงานแล้ว"}</p>
+              </div>
+
+              <div className="mt-2 text-xl items-center flex flex-row w-full gap-5">
+                การจัดการ:
+                <div className="flex gap-2">
+                  <Link
+                    href={`/backoffice/admin/topic/${topic.id}`}
+                    className="text-3xl text-success btn w-14"
+                  >
+                    <RiFileList2Fill />
+                  </Link>
+                  <button
+                    className="text-3xl text-warning btn w-14"
+                    onClick={() => openUpdateModal(topic)}
+                  >
+                    <MdEditDocument />
+                  </button>
+                  <button
+                    className="text-3xl text-error btn w-14"
+                    onClick={() => {
+                      handleDelete(topic.id);
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
       </div>
       <div className="modal">
         <dialog id="modalCreate" className="modal">

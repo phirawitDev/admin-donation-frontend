@@ -263,6 +263,47 @@ export default function BlankPage() {
           </tbody>
         </table>
       </div>
+      <div className="w-full flex flex-col xl:hidden my-4">
+        {Array.isArray(users) &&
+          users.map((user: usersInterface) => (
+            <div
+              key={user.id}
+              className="p-4 mt-2 flex flex-col items-center bg-white rounded-xl shadow border-1 border-gray-200"
+            >
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                รหัสพนักงาน: <p>{String(user.id).padStart(4, "0")}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ชื่อพนักงาน: <p>{user.name}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ชื่อผู้ใช้: <p>{user.username}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                สิทธิ์การใช้งาน:{" "}
+                <p>{user.role == "ADMIN" ? "แอดมิน" : "พนักงาน"}</p>
+              </div>
+
+              <div className="mt-2 text-xl items-center flex flex-row w-full gap-5">
+                การจัดการ:
+                <div className="flex gap-2">
+                  <button
+                    className="text-3xl text-warning btn w-14"
+                    onClick={() => openUpdateModal(user)}
+                  >
+                    <FaUserPen />
+                  </button>
+                  <button
+                    className="text-3xl text-error btn w-14"
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    <FaUserMinus />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
       <div className="modal">
         <dialog id="modalUserCreate" className="modal">
           <div className="modal-box">

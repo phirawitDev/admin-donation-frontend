@@ -55,7 +55,7 @@ export default function BlankPage() {
             {Array.isArray(customers) &&
               customers.map((customer: customersInterface) => (
                 <tr key={customer.id} className="hover:bg-base-200">
-                  <td>{String(customer.id).padStart(5, "0")}</td>
+                  <td>{String(customer.id).padStart(4, "0")}</td>
                   <td>{customer.uid}</td>
                   <td>{customer.displayName}</td>
                   <td>{customer.from}</td>
@@ -63,6 +63,28 @@ export default function BlankPage() {
               ))}
           </tbody>
         </table>
+      </div>
+      <div className="w-full flex flex-col xl:hidden my-4">
+        {Array.isArray(customers) &&
+          customers.map((customer: customersInterface) => (
+            <div
+              key={customer.id}
+              className="p-4 mt-2 flex flex-col items-center bg-white rounded-xl shadow border-1 border-gray-200"
+            >
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                รหัสผู้ร่วมบุญ: <p>{String(customer.id).padStart(4, "0")}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                UID: <p>{customer.uid}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ชื่อโปรไฟล์: <p>{customer.displayName}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ที่มา: <p>{customer.from}</p>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
