@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { getAuthHeaders } from "@/app/component/Headers";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { campaign_transactionsInterface } from "@/app/interface/campaign_transactionsInterface";
@@ -19,7 +18,7 @@ export default function PushImagePage() {
   const [data, setData] = useState<campaign_transactionsInterface | null>();
   const router = useRouter();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const url = process.env.NEXT_PUBLIC_API_URL + `/pushimages/data/${id}`;
 
@@ -29,11 +28,11 @@ export default function PushImagePage() {
       const e = error as Error;
       console.log(e.message);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [fetchData]);
 
   const handleAddField = () => {
     if (imageFields.length >= 5) {

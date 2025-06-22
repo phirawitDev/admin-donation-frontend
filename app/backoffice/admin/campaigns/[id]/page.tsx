@@ -9,6 +9,7 @@ import { useEffect, useState, useCallback } from "react";
 import { FaCamera, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
+import { saveAs } from "file-saver";
 
 export default function BlankPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +26,7 @@ export default function BlankPage() {
     from: "L",
     campaignId: id,
   });
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const fetchTransactions = useCallback(async () => {
     try {
@@ -273,11 +275,42 @@ export default function BlankPage() {
     }
   };
 
+  const handleExport = async () => {
+    setIsDownloading(true);
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL + `/excel/campaigns/${id}`;
+
+      console.log(`กำลังเรียก API ที่: ${apiUrl}`);
+
+      const response = await axios.get(apiUrl, {
+        responseType: "blob",
+      });
+
+      const now = new Date();
+      const filename = `${campaignname}-${now.getFullYear()}-${
+        now.getMonth() + 1
+      }-${now.getDate()}_${now.getHours()}-${now.getMinutes()}.xlsx`;
+      saveAs(response.data, filename);
+    } catch (error: unknown) {
+      const e = error as Error;
+      console.error("ดาวน์โหลดไฟล์ไม่สำเร็จ:", e);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="flex flex-col xl:flex-row gap-2 xl:gap-0 justify-between items-center p-4">
         <h1 className="text-3xl font-bold">กองบุญ: {campaignname}</h1>
         <div className="w-full xl:w-auto">
+          <button
+            onClick={handleExport}
+            disabled={isDownloading}
+            className="px-4 py-2 font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400"
+          >
+            {isDownloading ? "กำลังดาวน์โหลด..." : "Export to Excel"}
+          </button>
           <button className="btn btn-primary w-full" onClick={openModal}>
             <FaPlus /> เพิ่มรายการร่วมบุญ
           </button>
