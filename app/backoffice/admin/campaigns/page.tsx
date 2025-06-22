@@ -347,6 +347,76 @@ export default function BlankPage() {
           </tbody>
         </table>
       </div>
+      <div className="w-full flex flex-col xl:hidden my-4">
+        {Array.isArray(campaigns) &&
+          campaigns.map((campaign: campaignsInterface) => (
+            <div
+              key={campaign.id}
+              className="p-4 mt-2 flex flex-col items-center bg-white rounded-xl shadow border-1 border-gray-200"
+            >
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                รหัสกองบุญ: <p>{String(campaign.id).padStart(4, "0")}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ชื่อกองบุญ: <p>{campaign.name}</p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ราคา:{" "}
+                <p>
+                  {campaign.price.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                จำนวนเปิดรับ:{" "}
+                <p>
+                  {campaign.stock > 0
+                    ? campaign.stock.toLocaleString("en-US")
+                    : 0}
+                </p>
+              </div>
+              <div className="flex flex-row w-full gap-5 mt-2 text-xl border-b-1 border-gray-200 truncate">
+                ยอดร่วมบุญ:{" "}
+                <p>
+                  {campaign.campaign_transactions
+                    .reduce(
+                      (sum: number, transaction: { value: number }) =>
+                        sum + transaction.value,
+                      0
+                    )
+                    .toLocaleString("en-US")}
+                </p>
+              </div>
+
+              <div className="mt-2 text-xl items-center flex flex-row w-full gap-5">
+                การจัดการ:
+                <div className="flex gap-2">
+                  <Link
+                    href={`/backoffice/admin/campaigns/${campaign.id}`}
+                    className="text-3xl text-success btn w-14"
+                  >
+                    <RiFileList2Fill />
+                  </Link>
+                  <button
+                    className="text-3xl text-warning btn w-14"
+                    onClick={() => openUpdateModal(campaign)}
+                  >
+                    <MdEditDocument />
+                  </button>
+                  <button
+                    className="text-3xl text-error btn w-14"
+                    onClick={() => {
+                      handleDelete(campaign.id);
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
       <div className="modal">
         <dialog id="modalCreate" className="modal">
           <div className="modal-box">

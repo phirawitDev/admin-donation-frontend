@@ -1,9 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
-
 export default function PushImagePage() {
-  const { id } = useParams();
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div

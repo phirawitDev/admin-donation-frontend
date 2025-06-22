@@ -30,7 +30,8 @@ export default function BlankPage() {
 
   const fetchTransactions = useCallback(async () => {
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + `/transactions/${id}`;
+      const url =
+        process.env.NEXT_PUBLIC_API_URL + `/transactions/complete/${id}`;
       const headers = getAuthHeaders();
 
       const transactions = await axios.get(url, { headers });
@@ -306,10 +307,10 @@ export default function BlankPage() {
             <FcDataSheet className="text-xl" /> โหลดไฟล์ Excel
           </button>
           <Link
-            href={`/backoffice/admin/campaigns/complete/${id}`}
-            className="btn btn-error xl:w-44"
+            href={`/backoffice/admin/campaigns/${id}`}
+            className="btn btn-success xl:w-44"
           >
-            ดำเนินการแล้ว
+            รอดำเนินการ
           </Link>
           <button className="btn btn-primary xl:w-44" onClick={openModal}>
             <FaPlus /> เพิ่มรายการร่วมบุญ
