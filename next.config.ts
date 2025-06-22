@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      new URL(
+        "https://donationapp.kuanimtungpichai.com/**",
+        "http://localhost:3001/**"
+      ),
+    ],
+  },
 };
 
 export default nextConfig;
