@@ -336,7 +336,7 @@ export default function BlankPage() {
                 (transaction: campaign_transactionsInterface) => (
                   <tr key={transaction.id} className="hover:bg-base-200">
                     <td className="w-[10%] truncate">
-                      <div className="w-full relative">
+                      <div className="w-full h-full relative">
                         <Image
                           src={`${
                             process.env.NEXT_PUBLIC_API_URL +
