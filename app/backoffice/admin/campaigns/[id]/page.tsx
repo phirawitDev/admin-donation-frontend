@@ -336,7 +336,7 @@ export default function BlankPage() {
                 (transaction: campaign_transactionsInterface) => (
                   <tr key={transaction.id} className="hover:bg-base-200">
                     <td className="w-[10%] truncate">
-                      <div className="w-full h-full relative">
+                      <div className="w-full h-20 relative">
                         <Image
                           src={`${
                             process.env.NEXT_PUBLIC_API_URL +
@@ -382,7 +382,7 @@ export default function BlankPage() {
                     <td className="w-[10%] truncate">
                       {transaction.customer.displayName}
                     </td>
-                    <td className="w-[20%] truncate">
+                    <td className="w-[10%] truncate">
                       {transaction.qrimg_url}
                     </td>
                     <td className="w-[10%] truncate">
