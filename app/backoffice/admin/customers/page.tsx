@@ -41,7 +41,7 @@ export default function BlankPage() {
         <h1 className="text-3xl font-bold">ข้อมูลลูกบุญย้อนหลัง</h1>
         <div className="w-full xl:w-auto"></div>
       </div>
-      <div className="hidden xl:flex card w-full p-4 bg-base-100">
+      <div className="hidden xl:flex card w-full p-4 bg-base-100 h-[80vh] overflow-hidden overflow-y-auto">
         <table className="table text-center">
           <thead className="border-b-2 border-base-300">
             <tr>
