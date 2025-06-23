@@ -11,6 +11,7 @@ import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 import { FcDataSheet } from "react-icons/fc";
+import Image from "next/image";
 
 export default function BlankPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -336,7 +337,18 @@ export default function BlankPage() {
               transactions.map(
                 (transaction: campaign_transactionsInterface) => (
                   <tr key={transaction.id} className="hover:bg-base-200">
-                    <td className="w-[10%] truncate">สลิปโอนเงิน</td>
+                    <td className="w-[10%] truncate">
+                      <div className="w-full h-20 relative">
+                        <Image
+                          src={`${
+                            process.env.NEXT_PUBLIC_API_URL +
+                            transaction.slip_img
+                          }`}
+                          alt="campaigns"
+                          fill
+                        />
+                      </div>
+                    </td>
                     <td className="w-[20%] truncate">
                       {transaction.details !== null && (
                         <p>{transaction.details}</p>
@@ -372,7 +384,7 @@ export default function BlankPage() {
                     <td className="w-[10%] truncate">
                       {transaction.customer.displayName}
                     </td>
-                    <td className="w-[20%] truncate">
+                    <td className="w-[10%] truncate">
                       {transaction.qrimg_url}
                     </td>
                     <td className="w-[10%] truncate">

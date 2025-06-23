@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 import { FcDataSheet } from "react-icons/fc";
 import Image from "next/image";
+
 export default function BlankPage() {
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();

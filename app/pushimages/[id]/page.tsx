@@ -236,8 +236,7 @@ export default function PushImagePage() {
                           </span>
                           <input
                             type="file"
-                            accept="image/*"
-                            className="hidden" // ซ่อน input เริ่มต้นไว้
+                            className="hidden"
                             onChange={(e) => handleFileChange(field.id, e)}
                           />
                         </label>
