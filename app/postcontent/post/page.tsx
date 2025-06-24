@@ -1,14 +1,19 @@
 "use client";
 
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function CampaignPostPage() {
+  const router = useRouter();
   const [form, setForm] = useState({
     campaign_name: "",
     campaign_details: "",
     campaign_price: "",
     topicId: 1,
   });
+  const [image, setImage] = useState<File | null>();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -22,7 +27,44 @@ export default function CampaignPostPage() {
   const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      alert("asdasdasd");
+      Swal.fire({
+        title: "กำลังดำเนินการ...",
+        text: "กรุณารอสักครู่",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        width: "375px",
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const formData = new FormData();
+      formData.append("campaign_name", form.campaign_name);
+      formData.append("campaign_details", form.campaign_details);
+      formData.append("campaign_price", form.campaign_price);
+      formData.append("topicId", form.topicId.toString());
+      formData.append("image", image as Blob);
+
+      const url = process.env.NEXT_PUBLIC_API_URL + "/campaigns/serviceopen";
+      const campaign = await axios.post(url, formData, {
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
+        },
+      });
+
+      if (campaign.data.status == 200) {
+        Swal.fire({
+          title: "เปิดกองบุญสำเร็จ",
+          text: "เปิดกองบุญสำเร็จแล้ว",
+          icon: "success",
+          timer: 3000,
+          showConfirmButton: false,
+          timerProgressBar: true,
+        });
+
+        router.push("/postcontent");
+      }
     } catch (error: unknown) {
       const e = error as Error;
       alert(e.message);
@@ -102,10 +144,10 @@ export default function CampaignPostPage() {
                   <input
                     type="file"
                     accept="image/*"
-                    className="file-input w-full"
-                    // onChange={(e) =>
-                    //   setImage(e.target.files ? e.target.files[0] : null)
-                    // }
+                    className="file-input h-14 w-full"
+                    onChange={(e) =>
+                      setImage(e.target.files ? e.target.files[0] : null)
+                    }
                     required
                   />
                 </div>

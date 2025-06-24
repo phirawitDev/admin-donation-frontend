@@ -387,7 +387,7 @@ export default function BlankPage() {
                       {transaction.qrimg_url}
                     </td>
                     <td className="w-[10%] truncate">
-                      {(transaction.customer.from == "line" && "line") ||
+                      {(transaction.customer.from == "line" && "L") ||
                         (transaction.customer.from == "facebook" &&
                           transaction.customer.commentId != null &&
                           "P") ||
