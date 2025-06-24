@@ -1,6 +1,5 @@
 "use client";
 
-import { getAuthHeaders } from "@/app/component/Headers";
 import { campaignsInterface } from "@/app/interface/campaignsInterface";
 import axios from "axios";
 import { useRouter } from "next/navigation";
