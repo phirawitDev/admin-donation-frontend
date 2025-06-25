@@ -8,12 +8,9 @@ import Swal from "sweetalert2";
 export default function CampaignPostPage() {
   const router = useRouter();
   const [form, setForm] = useState({
-    campaign_name: "",
-    campaign_details: "",
-    campaign_price: "",
-    topicId: 1,
+    content: "",
   });
-  const [image, setImage] = useState<File | null>();
+  const [images, setImages] = useState<File[] | null>([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,13 +37,13 @@ export default function CampaignPostPage() {
       });
 
       const formData = new FormData();
-      formData.append("campaign_name", form.campaign_name);
-      formData.append("campaign_details", form.campaign_details);
-      formData.append("campaign_price", form.campaign_price);
-      formData.append("topicId", form.topicId.toString());
-      formData.append("image", image as Blob);
-
-      const url = process.env.NEXT_PUBLIC_API_URL + "/campaigns/serviceopen";
+      formData.append("content", form.content);
+      if (images) {
+        for (const imageFile of images) {
+          formData.append("images", imageFile);
+        }
+      }
+      const url = process.env.NEXT_PUBLIC_API_URL + "/n8n/postcontent";
       const campaign = await axios.post(url, formData, {
         headers: {
           Authorization: "Bearer " + process.env.NEXT_PUBLIC_JWT_SECRET_KEY,
@@ -71,6 +68,20 @@ export default function CampaignPostPage() {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      // แปลง FileList ที่ได้มาให้เป็น Array แล้วเก็บใน State
+      setImages(Array.from(e.target.files));
+    }
+  };
+
+  const handleRemoveImage = (indexToRemove: number) => {
+    setImages((prevImages) => {
+      if (!prevImages) return null; // Handle the case where prevImages is null
+      return prevImages.filter((_, index) => index !== indexToRemove);
+    });
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div
@@ -90,7 +101,7 @@ export default function CampaignPostPage() {
           <div className="card flex flex-col w-full h-[85vh] py-4 px-2 items-center bg-white/70 rounded-lg">
             <div className="w-full h-full flex flex-col gap-2 overflow-hidden overflow-y-auto">
               <h1 className="text-2xl text-center">
-                กรอกข้อมูลเพื่อเปิดกองบุญ
+                กรอกข้อมูลเพื่อโพสต์ทั่วไป
               </h1>
               <form
                 id="form"
@@ -98,57 +109,28 @@ export default function CampaignPostPage() {
                 className="mt-6 flex flex-col gap-3"
               >
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="campaign_name" className="text-xl">
-                    ชื่อกองบุญ
-                  </label>
-                  <input
-                    type="text"
-                    name="campaign_name"
-                    placeholder="กรอกชื่อกองบุญ"
-                    value={form.campaign_name}
-                    onChange={handleChange}
-                    required
-                    className="input w-full h-14 text-lg"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="campaign_details" className="text-xl">
-                    รายละเอียดกองบุญ
+                  <label htmlFor="content" className="text-xl">
+                    รายละเอียด
                   </label>
                   <textarea
-                    name="campaign_details"
-                    placeholder="กรอกรายละเอียดกองบุญ"
-                    value={form.campaign_details}
+                    name="content"
+                    placeholder="กรอกรายละเอียด....."
+                    value={form.content}
                     onChange={handleChange}
-                    rows={6}
+                    rows={12}
                     required
                     className="textarea w-full text-lg"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="campaign_price" className="text-xl">
-                    ราคาร่วมบุญ
-                  </label>
-                  <input
-                    type="number"
-                    name="campaign_price"
-                    placeholder="กรอกราคาร่วมบุญ"
-                    value={form.campaign_price}
-                    onChange={handleChange}
-                    required
-                    className="input w-full h-14 text-lg"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-xl">รูปกองบุญ</label>
+                  <label className="text-xl">รูปภาพ</label>
                   <input
                     type="file"
                     accept="image/*"
                     className="file-input h-14 w-full"
-                    onChange={(e) =>
-                      setImage(e.target.files ? e.target.files[0] : null)
-                    }
+                    onChange={handleFileChange}
                     required
+                    multiple
                   />
                 </div>
                 <div className="flex w-full mt-6 justify-center items-end">
