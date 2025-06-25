@@ -75,13 +75,6 @@ export default function CampaignPostPage() {
     }
   };
 
-  const handleRemoveImage = (indexToRemove: number) => {
-    setImages((prevImages) => {
-      if (!prevImages) return null; // Handle the case where prevImages is null
-      return prevImages.filter((_, index) => index !== indexToRemove);
-    });
-  };
-
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div
@@ -132,6 +125,12 @@ export default function CampaignPostPage() {
                     required
                     multiple
                   />
+                  <button
+                    className="btn btn-error w-40 "
+                    onClick={() => setImages(null)}
+                  >
+                    รีเซ็ตรูปภาพ
+                  </button>
                 </div>
                 <div className="flex w-full mt-6 justify-center items-end">
                   <button form="form" className="btn btn-primary w-40 ">
