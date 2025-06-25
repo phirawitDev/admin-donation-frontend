@@ -117,20 +117,22 @@ export default function CampaignPostPage() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xl">รูปภาพ</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="file-input h-14 w-full"
-                    onChange={handleFileChange}
-                    required
-                    multiple
-                  />
-                  <button
-                    className="btn btn-error w-40 "
-                    onClick={() => setImages(null)}
-                  >
-                    รีเซ็ตรูปภาพ
-                  </button>
+                  <div className="flex gap-2 items-center justify-between">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="file-input h-14 w-full"
+                      onChange={handleFileChange}
+                      required
+                      multiple
+                    />
+                    <button
+                      className="btn btn-error h-14 text-xs"
+                      onClick={() => setImages(null)}
+                    >
+                      รีเซ็ตรูปภาพ
+                    </button>
+                  </div>
                 </div>
                 <div className="flex w-full mt-6 justify-center items-end">
                   <button form="form" className="btn btn-primary w-40 ">
