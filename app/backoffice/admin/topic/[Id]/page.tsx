@@ -42,7 +42,7 @@ export default function TopicDetailsPage() {
           <tbody>
             {Array.isArray(campaign) &&
               campaign.map((item: campaignsInterface) => (
-                <tr>
+                <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.price}</td>
