@@ -136,7 +136,7 @@ export default function CampaignPostPage() {
                 </div>
                 <div className="flex w-full mt-6 justify-center items-end">
                   <button form="form" className="btn btn-primary w-40 ">
-                    เปิดกองบุญ
+                    โพสต์
                   </button>
                 </div>
               </form>

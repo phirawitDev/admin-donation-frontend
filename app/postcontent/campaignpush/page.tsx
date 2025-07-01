@@ -173,7 +173,7 @@ export default function CampaignPostPage() {
 
               <div className="modal-action flex gap-2">
                 <button className="btn btn-primary w-16" onClick={handleCreate}>
-                  บันทึก
+                  กระทุ้ง
                 </button>
                 <form method="dialog">
                   <button className="btn w-16">ออก</button>
